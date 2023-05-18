@@ -166,6 +166,16 @@ Book Device
 curl --location 'localhost:8080/api/v1/book' \
 --header 'Content-Type: application/json' \
 --data '{"phoneName":"Samsung Galaxy S9","bookedBy":"Bob"}'
+200 OK
+{
+    "phoneId": "1",
+    "phoneName": "Samsung Galaxy S9",
+    "bookedBy": "Bob",
+    "bookedOn": "2023-05-18T19:47:55.493684",
+    "isAvailable": "No",
+    "status": "booked"
+}
+
 
 400 ERROR
 {
