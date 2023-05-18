@@ -49,12 +49,12 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/v1/return?name=Samsung Galaxy S9",
+			"name": "localhost:8080/api/v1/return/Samsung Galaxy S9",
 			"request": {
-				"method": "DELETE",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/v1/return?name=Samsung Galaxy S9",
+					"raw": "localhost:8080/api/v1/return/Samsung Galaxy S9",
 					"host": [
 						"localhost"
 					],
@@ -62,13 +62,8 @@
 					"path": [
 						"api",
 						"v1",
-						"return"
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "Samsung Galaxy S9"
-						}
+						"return",
+						"Samsung Galaxy S9"
 					]
 				}
 			},
@@ -115,12 +110,12 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/v1/device?name=Nokia 3310",
+			"name": "localhost:8080/api/v1/device/Nokia 3310",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/v1/device?name=Nokia 3310",
+					"raw": "localhost:8080/api/v1/device/Samsung Galaxy S9",
 					"host": [
 						"localhost"
 					],
@@ -128,13 +123,8 @@
 					"path": [
 						"api",
 						"v1",
-						"device"
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "Nokia 3310"
-						}
+						"device",
+						"Samsung Galaxy S9"
 					]
 				}
 			},

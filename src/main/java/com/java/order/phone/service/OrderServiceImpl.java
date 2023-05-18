@@ -2,6 +2,7 @@ package com.java.order.phone.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
+import com.java.order.phone.api.exceptions.OrderAPIException;
 import com.java.order.phone.api.model.*;
 import com.java.order.phone.common.DeviceConstant;
 import com.java.order.phone.dao.BookingRepository;
@@ -59,10 +60,10 @@ public class OrderServiceImpl implements OrderService {
 
         Device device = deviceRepository.findByName(bookingRequest.getName());
         if (device == null)
-            throw new RuntimeException(bookingRequest.getName() + " No Device Found!");
+            throw new OrderAPIException(bookingRequest.getName() + " No Device Found!");
         Users user= usersRepository.findByName(bookingRequest.getBookedBy());
         if (user == null)
-            throw new RuntimeException(bookingRequest.getBookedBy()+ " No user Found!");
+            throw new OrderAPIException(bookingRequest.getBookedBy()+ " No user Found!");
 
         // Check if phone is available with count
         if (device.getAvailable()) {
@@ -78,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
             // book phone and send response back
             return new BookingResponse(Long.toString(savedBooking.getId()), savedBooking.getDevice().getName(), savedBooking.getUser().getName(), savedBooking.getBookedDate(), savedBooking.getDevice().getAvailable() ? "Yes" : "No",savedBooking.getStatus());
         } else {
-            throw new RuntimeException(bookingRequest.getName() + " can't be booked again!");
+            throw new OrderAPIException(bookingRequest.getName() + " can't be booked again!");
         }
     }
 
@@ -119,6 +120,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public PhoneDetail getPhoneByName(String phoneName) throws JsonProcessingException {
         Device device = deviceRepository.findByName(phoneName);
+        if (device == null)
+            throw new OrderAPIException(phoneName + " No Device Found!");
         if(device.getTechnology() == null) {
             device = fetchDataFromRapidApi(device, phoneName);
         }
@@ -142,11 +145,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ReturnResponse deviceReturn(String phoneName) {
         Device device = deviceRepository.findByName(phoneName);
+        if (device == null)
+            throw new OrderAPIException(phoneName + " No Device Found!");
         Booking booking = bookingRepository.findByDeviceId(device.getId());
-
         if (null == booking) throw new RuntimeException(phoneName + " was never booked, so it can't be returned!");
         else if (booking.getDevice().getAvailable())
-            throw new RuntimeException(phoneName + " was never booked, so it can't be returned!");
+            throw new OrderAPIException(phoneName + " was never booked, so it can't be returned!");
         else {
             booking.getDevice().setAvailable(true);
             int currentCount = booking.getDevice().getCount();

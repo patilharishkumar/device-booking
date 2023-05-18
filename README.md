@@ -1,7 +1,12 @@
 ##REFLECTION
 What aspect of this exercise did you find most interesting?
-• What did you find most cumbersome?
+Integration with Rapid api was interesting along i like to find tech info and bands its responding
+like architecting this simple service API 
 
+• What did you find most cumbersome?
+I was not able to finish unit tesing part as have limited time in hand.
+i could have done lot better error handling for application cumbersome part i think 
+also finding alternative for fonoapi is cumbersome part but i have used rapid api in past to was known to this info.
 
 
 Rapid APi is used to fetch device specs as fonoapi is not working
@@ -44,12 +49,9 @@ docker-compose down --rmi all
 ## For testing of App console via curl or postman
 
 Postman Collection  for Testing backend app
-[link](./AppConsole.postman_collection.json)
+[link](./testing.postman_collection.json)
 
 Sample data files with Valid and invalid files
-Invalid App file -> apptest.zip  [link](./apptest.zip)
-
-valid App file -> apptest.zip  [link](./apptest2.zip)
 
 Curl command for quick testing.
 
@@ -58,151 +60,149 @@ Create App with zip file
 please provide path to test app.
 e.g /Users/harishkumar.a.patil/Desktop/apptest2.zip
 ```bash
-curl --location --request POST 'http://localhost:6868/apps' \
---header 'Content-Type: multipart/form-data' \
---form 'developerId="2esdadasdasdasd222"' \
---form 'appName="testappsss"' \
---form 'file=@"/Users/harishkumar.a.patil/Desktop/apptest2.zip"'
+curl --location --request GET 'http://localhost:8080/api/v1/health'
 ```
 
 Response
 ```bash
 200 OK
-{
-    "message": "App Uploaded after review successfully: apptest2.zip",
-    "appName": "testappsss",
-    "id": "ee436660-daee-4713-a0bd-585f9939af5c",
-    "developerId": "2esdadasdasdasd222",
-    "downloadURL": "http://localhost:6868/files/ac0b26e6-89c1-415d-9ee5-c2b195ad9254",
-    "appStatus": "APPROVED"
-}
-
-
-If file dose Not match criteria 
-417 Expectation Failed 
-
-{
-    "message": "App review failed app should only contains .doesntmakesense extension files : apptest.zip",
-    "appName": "testappsss",
-    "id": null,
-    "developerId": "2esdadasdasdasd222",
-    "downloadURL": null,
-    "appStatus": "REJECTED"
-}
+The Phone Order Service is running!
+ 
+400
+not found
 ```
 
-Get List of Apps 
+Get List of Devices 
 
 ```bash
-curl --location --request GET 'http://localhost:6868/apps'
+curl --location --request GET 'http://localhost:8080/api/v1/devices'
 
 [
-     {
-        "id": "2e7174e9-d9cf-4bbb-9432-eec72505d4a6",
-        "developerId": "2esdadasdasdasd222",
-        "appName": "testappsss",
-        "appStatus": "REJECTED",
-        "downloadURL": ""
+    {
+        "phoneId": 1,
+        "phoneName": "Samsung Galaxy S9",
+        "count": 1,
+        "available": "Yes"
     },
     {
-        "id": "4c7b45a7-6f4e-4cd9-8ca6-6e6bc021c3b5",
-        "developerId": "2esdadasdasdasd",
-        "appName": "testapp1",
-        "appStatus": "APPROVED",
-        "downloadURL": "http://localhost:6868/files/f1ac93e6-a0de-4b23-94e1-7d70a133a095"
+        "phoneId": 2,
+        "phoneName": "Samsung Galaxy S8",
+        "count": 2,
+        "available": "Yes"
     },
     {
-        "id": "61e357ec-2348-41e8-ae2a-3dd9cf808b89",
-        "developerId": "2esdadasdasdasd",
-        "appName": "testapp2",
-        "appStatus": "NOT_UPLOADED",
-        "downloadURL": ""
+        "phoneId": 3,
+        "phoneName": "Motorola Nexus 6",
+        "count": 1,
+        "available": "Yes"
     },
     {
-        "id": "8e6d35f7-d862-4623-85c5-df2f0d74b6b4",
-        "developerId": "2esdadasdasdasd",
-        "appName": "testapp3",
-        "appStatus": "APPROVED",
-        "downloadURL": "http://localhost:6868/files/64f03b38-d4d8-4aeb-bba1-37d311cb469d"
+        "phoneId": 4,
+        "phoneName": "Oneplus 9",
+        "count": 1,
+        "available": "Yes"
+    },
+    {
+        "phoneId": 5,
+        "phoneName": "Huawei Honor 13",
+        "count": 1,
+        "available": "Yes"
+    },
+    {
+        "phoneId": 6,
+        "phoneName": "Apple iPhone 12",
+        "count": 1,
+        "available": "Yes"
+    },
+    {
+        "phoneId": 7,
+        "phoneName": "Apple iPhone 11",
+        "count": 1,
+        "available": "Yes"
+    },
+    {
+        "phoneId": 8,
+        "phoneName": "Apple iPhone x",
+        "count": 1,
+        "available": "Yes"
+    },
+    {
+        "phoneId": 9,
+        "phoneName": "Nokia 3310",
+        "count": 1,
+        "available": "Yes"
     }
 ]
 
 ```
 
-Get App
+Get device
 
 ```bash
-curl --location --request GET 'http://localhost:6868/apps/ee436660-daee-4713-a0bd-585f9939af5c'
+curl --location --request GET 'http://localhost:8080/api/v1/device/Samsung%20Galaxy%20S9'
 
 200 OK
 {
-    "id": "ee436660-daee-4713-a0bd-585f9939af5c",
-    "developerId": "2esdadasdasdasd222",
-    "appName": "testappsss",
-    "appStatus": "APPROVED",
-    "downloadURL": "http://localhost:6868/files/ac0b26e6-89c1-415d-9ee5-c2b195ad9254"
+    "phoneId": "1",
+    "phoneName": "Samsung Galaxy S9",
+    "technology": "GSM / CDMA / HSPA / EVDO / LTE",
+    "network2GBands": "GSM 850 / 900 / 1800 / 1900 - SIM 1 & SIM 2 (dual-SIM model only)\\nCDMA 800 / 1900 - USA",
+    "network3GBands": "HSDPA 850 / 900 / 1700(AWS) / 1900 / 2100 - Global, USA\\nCDMA2000 1xEV-DO - USA",
+    "network4GBands": "1, 2, 3, 4, 5, 7, 8, 12, 13, 17, 18, 19, 20, 25, 26, 28, 32, 38, 39, 40, 41, 66 - Global\\n1, 2, 3, 4, 5, 7, 8, 12, 13, 14, 17, 18, 19, 20, 25, 26, 28, 29, 30, 38, 39, 40, 41, 46, 66, 71 - USA",
+    "bookedBy": "N/A",
+    "bookedOn": null,
+    "isAvailable": "Yes"
 }
 
-417 Expectation Failed 
+400  Expectation Failed 
 {
-    "message": "No value present",
-    "appName": null,
-    "id": null,
-    "developerId": null,
-    "downloadURL": null,
-    "appStatus": null
+    "timestamp": "2023-05-18T10:40:09.968+00:00",
+    "message": "Samsung Galaxy S10 No Device Found!",
+    "details": "uri=/api/v1/device/Samsung%20Galaxy%20S10"
+}
+```
+Book Device
+```bash
+curl --location 'localhost:8080/api/v1/book' \
+--header 'Content-Type: application/json' \
+--data '{"phoneName":"Samsung Galaxy S9","bookedBy":"Bob"}'
+
+400 ERROR
+{
+    "timestamp": "2023-05-18T10:37:28.212+00:00",
+    "message": "Samsung Galaxy S9 can't be booked again!",
+    "details": "uri=/api/v1/book"
 }
 ```
 
-
-Delete App
+Return Device
 ```bash
-curl --location --request DELETE 'http://localhost:6868/apps/ee436660-daee-4713-a0bd-585f9939af5c'
+curl --location --request POST 'http://localhost:8080/api/v1/return/Samsung Galaxy S9'
 
 200 OK
 {
-    "id": "ee436660-daee-4713-a0bd-585f9939af5c",
-    "developerId": "2esdadasdasdasd222",
-    "appName": "testappsss",
-    "appStatus": "DELETED",
-    "downloadURL": ""
+    "phoneId": "1",
+    "phoneName": "Samsung Galaxy S9",
+    "returnedBy": "Bob",
+    "returnedOn": "2023-05-18T17:55:32.068256",
+    "isAvailable": "Yes",
+    "status": "returned"
 }
-
-417 Expectation Failed 
+400
 {
-    "message": "App not found",
-    "appName": null,
-    "id": null,
-    "developerId": null,
-    "downloadURL": null,
-    "appStatus": null
+    "timestamp": "2023-05-18T10:37:43.338+00:00",
+    "message": "Samsung Galaxy S9 was never booked, so it can't be returned!",
+    "details": "uri=/api/v1/return/Samsung%20Galaxy%20S9"
+}
+404 Expectation Failed 
+{
+    "timestamp": "2023-05-18T10:11:37.249+00:00",
+    "status": 404,
+    "error": "Not Found",
+    "message": "No message available",
+    "path": "/api/v1/return/Samsung%20Galaxy%20S10"
 }
 ```
-
-Download App File
-```bash
-curl --location --request GET 'http://localhost:6868/files/58e2c9fc-3117-4881-ae06-858e16b20063'
-
-200 OK 
-with file content 
-```
-
-
-## Swagger Markdown
-Read for More details here [link](./appconsole.md)
-
-![plot](./APIs.png)
-
-Apps
-
-![plot](./swagger-app.png)
-
-![plot](./appUpload.png)
-
-
-REFLECTION:
-• What aspect of this exercise did you find most interesting?
-• What did you find most cumbersome?
 
 
 

@@ -2,33 +2,83 @@ package com.java.order.phone.api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.java.order.phone.api.model.*;
+import com.java.order.phone.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(value = "/api/v1/")
-public interface OrderController {
+@RestController
+@RequestMapping(value = "/api/v1")
+public class OrderController {
 
-    @RequestMapping(value = "/book", method = RequestMethod.POST)
-    ResponseEntity<BookingResponse> bookPhone(@RequestBody BookingRequest bookingRequest) throws JsonProcessingException;
+    @Autowired
+    private OrderService phoneOrderService;
 
-    @RequestMapping(value = "/return", method = RequestMethod.DELETE)
-    ResponseEntity<ReturnResponse> returnPhone(@RequestParam("name") String phoneName) throws JsonProcessingException;
+    /**
+     *  book Phone
+     * @param bookingRequest
+     * @return
+     * @throws JsonProcessingException
+     */
+    @PostMapping(value = "/book")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public ResponseEntity<BookingResponse> bookPhone(@RequestBody BookingRequest bookingRequest) throws JsonProcessingException {
+            return ResponseEntity.ok(phoneOrderService.bookDevice(bookingRequest));
+    }
 
-    @RequestMapping(value = "/bookings", method = RequestMethod.GET)
-    ResponseEntity<List<BookingResponse>> getAllBookings();
+    /**
+     *
+     * @param phoneName
+     * @return
+     */
+    @PostMapping(value = "/return/{phoneName}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<ReturnResponse> returnPhone(@PathVariable("phoneName") String phoneName) {
+            return ResponseEntity.ok(phoneOrderService.deviceReturn(phoneName));
+    }
 
-    @RequestMapping(value = "/devices", method = RequestMethod.GET)
-    ResponseEntity<List<DeviceDetails>> getAllDevices();
+    /**
+     *  GET all Devices
+     * @return
+     */
+    @GetMapping(value = "/devices")
+    @ResponseBody
+    public ResponseEntity<List<DeviceDetails>> getAllDevices() {
+        return ResponseEntity.ok(phoneOrderService.getAllDevices());
+    }
 
-    @RequestMapping(value = "/device", method = RequestMethod.GET)
-    ResponseEntity<PhoneDetail> getPhoneByName(@RequestParam("name") String phoneName) throws JsonProcessingException;
+    /**
+     * bookings
+     * @return
+     */
+    @GetMapping(value = "/bookings")
+    @ResponseBody
+    public ResponseEntity<List<BookingResponse>> getAllBookings() {
+        return ResponseEntity.ok(phoneOrderService.getAllBookings());
+    }
 
-    @RequestMapping(value = "/health", method = RequestMethod.GET)
-    ResponseEntity<String> checkHealth();
+    /**
+     * device
+     * @param phoneName
+     * @return
+     * @throws JsonProcessingException
+     */
+    @GetMapping(value = "/device/{phoneName}")
+    @ResponseBody
+    public ResponseEntity<PhoneDetail> getPhoneByName(@PathVariable("phoneName")  String phoneName) throws JsonProcessingException {
+        return ResponseEntity.ok(phoneOrderService.getPhoneByName(phoneName));
+    }
 
+    /**
+     * check Health
+     * @return
+     */
+    public ResponseEntity<String> checkHealth() {
+        return ResponseEntity.ok("The Phone Order Service is running!");
+    }
 }
