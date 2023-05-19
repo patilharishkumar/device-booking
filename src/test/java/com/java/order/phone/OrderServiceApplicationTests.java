@@ -94,7 +94,7 @@ class OrderServiceApplicationTests {
 	 */
 	@Test
 	public void get_phone_Nokia_whenGET_thenReturns200OK() throws Exception {
-		MvcResult result = mockMvc.perform(get("/api/v1/device?name=Nokia 3310")).andExpect(status().isOk()).andDo(print()).andReturn();
+		MvcResult result = mockMvc.perform(get("/api/v1/device/Nokia 3310")).andExpect(status().isOk()).andDo(print()).andReturn();
 		String content = result.getResponse().getContentAsString();
 		System.out.println(content);
 	}
@@ -105,7 +105,7 @@ class OrderServiceApplicationTests {
 	 */
 	@Test
 	public void get_phone_Samsung_whenGET_thenReturns200OK() throws Exception {
-		MvcResult result = mockMvc.perform(get("/api/v1/device?name=Samsung Galaxy S9")).andExpect(status().isOk()).andDo(print()).andReturn();
+		MvcResult result = mockMvc.perform(get("/api/v1/device/Samsung Galaxy S9")).andExpect(status().isOk()).andDo(print()).andReturn();
 		String content = result.getResponse().getContentAsString();
 
 	}
