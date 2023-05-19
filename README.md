@@ -1,4 +1,5 @@
 ##REFLECTION
+
 What aspect of this exercise did you find most interesting?
 Integration with Rapid api was interesting along i like to find tech info and bands its responding
 like architecting this simple service API 
